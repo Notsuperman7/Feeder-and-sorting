@@ -19,40 +19,47 @@ part currentPart;
 
 void sort(void *parameter)
 {
-  if (digitalRead(Switch_pin) == LOW)
+  while (1)
   {
-    currentPart.isBase = (digitalRead(Msensor_pin) == HIGH);
-    currentPart.isWhite = (digitalRead(iR2_pin) == HIGH);
-  }
-  // sorting
-  if (currentPart.isWhite)
-  {
-    Serial.println("White");
-  }
-  else
-  {
-    Serial.println("Black");
-  }
-  if (currentPart.isBase)
-  {
-    Serial.println("Base");
-  }
-  else
-  {
-    Serial.println("Lid");
+    if (digitalRead(Switch_pin) == LOW)
+    {
+      currentPart.isBase = (digitalRead(Msensor_pin) == HIGH);
+      currentPart.isWhite = (digitalRead(iR2_pin) == HIGH);
+    }
+    // sorting
+    if (currentPart.isWhite)
+    {
+      Serial.println("White");
+    }
+    else
+    {
+      Serial.println("Black");
+    }
+    if (currentPart.isBase)
+    {
+      Serial.println("Base");
+    }
+    else
+    {
+      Serial.println("Lid");
+    }
+    delay(100);
   }
 }
 
 void feed(void *parameter)
 {
-  bool part_Detected = (digitalRead(iR1_pin) == LOW);
-  bool no_part_Sorting = (digitalRead(Switch_pin) == HIGH);
-  if (no_part_Sorting && part_Detected)
+  while (1)
   {
-    digitalWrite(relay_pin, LOW);
-    delay(BackwardTime);
-    digitalWrite(relay_pin, HIGH);
-    delay(forwardTime);
+    bool part_Detected = (digitalRead(iR1_pin) == LOW);
+    bool no_part_Sorting = (digitalRead(Switch_pin) == HIGH);
+    if (no_part_Sorting && part_Detected)
+    {
+      digitalWrite(relay_pin, LOW);
+      delay(BackwardTime);
+      digitalWrite(relay_pin, HIGH);
+      delay(forwardTime);
+    }
   }
 }
 
