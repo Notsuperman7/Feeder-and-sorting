@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "../../../Python"
+		},
+		{
+			"name": "project_v1",
+			"path": ".."
+		},
+		{
+			"name": "PID_zX",
+			"path": "../../PID_zX"
+		},
+		{
+			"name": "ESP_Comm",
+			"path": "../../Esp_comm/ESP_Comm"
+		}
+	],
+	"settings": {}
+}
