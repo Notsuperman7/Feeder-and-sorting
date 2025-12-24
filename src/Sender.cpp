@@ -4,7 +4,7 @@
 #include <string.h>
 #include <Arduino.h>
 
-uint8_t receiverMAC[] = {0x3C, 0x8A, 0x1F, 0xB0, 0x5A, 0xAC}; // Cartesian MAC adresses u put the reciver mac address in the sender
+uint8_t receiverMAC[] = {0x3C, 0x8A, 0x1F, 0xB0, 0x13, 0xF0}; // Feeder MAC adresses u put the reciver mac address in the sender
 
 typedef struct {
   char text[32];

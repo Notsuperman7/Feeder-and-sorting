@@ -9,7 +9,8 @@
 
 #define forwardTime 1000
 #define BackwardTime 1000
-
+int countParts =0;
+int oldcount=0;
 class part
 {
 public:
@@ -28,28 +29,31 @@ void sort(void *parameter)
       currentPart.isBase = (digitalRead(Msensor_pin) == HIGH);
       currentPart.isWhite = (digitalRead(iR2_pin) == HIGH);
     }
+    if (countParts>oldcount){
+      if (currentPart.isWhite && currentPart.isBase)
+      {
+        Serial.println("White Base");
+        Send("A");
+      }
+      else if (currentPart.isWhite && !currentPart.isBase)
+      {
+        Serial.println("White Lid");
+        Send("B");
+      }
+      else if (!currentPart.isWhite && currentPart.isBase)
+      {
+        Serial.println("Black Base");
+        Send("C");
+      }
+      else if (!currentPart.isWhite && !currentPart.isBase)
+      {
+       Serial.println("Black Lid");
+       Send("D");
+      }
+      oldcount=countParts;
+    }
     // sorting
-    if (currentPart.isWhite)
-    {
-      Serial.println("White");
-      Send("White");
-    }
-    else
-    {
-      Serial.println("Black");
-      Send("Black");
-    }
-    if (currentPart.isBase)
-    {
-      Serial.println("Base");
-      Send("Base");
-    }
-    else
-    {
-      Serial.println("Lid");
-      Send("Lid");
-    }
-    delay(100);
+    delay(1000);
   }
 }
 
@@ -67,11 +71,12 @@ void feed(void *parameter)
         delay(BackwardTime);
         digitalWrite(relay_pin, HIGH);
         delay(forwardTime);
+        countParts++;
       }
       if(!part_Detected&& !no_part_Sorting)    // if no part & no soerting means no parts
       {
         Serial.println("no parts");
-        Send("no parts");
+        Send("N");
       }
 
     }
