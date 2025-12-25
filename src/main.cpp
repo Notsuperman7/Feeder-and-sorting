@@ -5,12 +5,12 @@
 #define iR1_pin 2
 #define iR2_pin 3
 #define Msensor_pin 5 // NPN mode
-#define Switch_pin 6
+#define Switch_pin 0
 
 #define forwardTime 1000
 #define BackwardTime 1000
-int countParts =0;
-int oldcount=0;
+int countParts = 0;
+int oldcount = 0;
 class part
 {
 public:
@@ -29,7 +29,8 @@ void sort(void *parameter)
       currentPart.isBase = (digitalRead(Msensor_pin) == HIGH);
       currentPart.isWhite = (digitalRead(iR2_pin) == HIGH);
     }
-    if (countParts>oldcount){
+    if (countParts > oldcount)
+    {
       if (currentPart.isWhite && currentPart.isBase)
       {
         Serial.println("White Base");
@@ -47,10 +48,10 @@ void sort(void *parameter)
       }
       else if (!currentPart.isWhite && !currentPart.isBase)
       {
-       Serial.println("Black Lid");
-       Send("D");
+        Serial.println("Black Lid");
+        Send("D");
       }
-      oldcount=countParts;
+      oldcount = countParts;
     }
     // sorting
     delay(1000);
@@ -63,7 +64,8 @@ void feed(void *parameter)
   {
     String got = Receive();
     Serial.println(got);
-    if(got =="F"|| got =="S"){            // F as finished postining, S as start in the beging to feed
+    if (got == "F" || got == "S")
+    { // F as finished postining, S as start in the beging to feed
       bool part_Detected = (digitalRead(iR1_pin) == LOW);
       bool no_part_Sorting = (digitalRead(Switch_pin) == HIGH);
       if (no_part_Sorting && part_Detected)
@@ -74,15 +76,13 @@ void feed(void *parameter)
         delay(forwardTime);
         countParts++;
       }
-      if(!part_Detected&& !no_part_Sorting)    // if no part & no soerting means no parts
+      if (!part_Detected && !no_part_Sorting) // if no part & no soerting means no parts
       {
         Serial.println("no parts");
         Send("N");
       }
-
     }
     delay(1000);
-    
   }
 }
 
@@ -98,7 +98,7 @@ void setup()
   delay(forwardTime);
   Serial.println("ready");
   Sender_Init();
-  Receiver_Init(); 
+  Receiver_Init();
 
   xTaskCreate(
       feed,   // Function name of the task
